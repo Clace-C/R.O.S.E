@@ -10,7 +10,9 @@ import comp3350.rose.Business.MyApplication;
 import comp3350.rose.Controller.DBInterface;
 import comp3350.rose.Presentation.Details;
 import comp3350.rose.Presentation.Edit;
+import comp3350.rose.Presentation.MenuViewer;
 import comp3350.rose.Presentation.SortRecipes;
+import comp3350.rose.Presentation.ViewRecipes;
 import comp3350.rose.Presentation.init;
 import comp3350.rose.model.Recipe;
 
@@ -31,6 +33,8 @@ public class ROSEUnitTest extends ListActivity {
     private static Recipe temp_Recipe;
     private static ListView DetailsListView;
 
+    private static String meals[];
+
     @BeforeClass
     public static void setUpClass() throws Exception {
         // Set Up Recipe ListView
@@ -40,7 +44,7 @@ public class ROSEUnitTest extends ListActivity {
             recDisplay.add(temp_recipes.get(i).getName());
         }
 
-        ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<>(new init(), android.R.layout.simple_list_item_1, recDisplay);
+        ArrayAdapter<String> myArrayAdapter;// = new ArrayAdapter<>(new init(), android.R.layout.simple_list_item_1, recDisplay);
 
         //RecipeListView = new init().getListView();
        // RecipeListView.setAdapter(myArrayAdapter);
@@ -65,17 +69,19 @@ public class ROSEUnitTest extends ListActivity {
         myArrayAdapter = new ArrayAdapter<>(new Details(), android.R.layout.simple_list_item_1, recDetails);
         DetailsListView = new Details().getListView();
         DetailsListView.setAdapter(myArrayAdapter);
+
+        meals = new String[] {"Breakfast", "Lunch", "Supper"};
     }
 
-//    @Test
-//    protected void initTest() {
-//        init initializer = new init();
-//
-//        ListView initListView = initializer.lv;
-//
-//        assertEquals("Recipes were not loaded from the stub database to the ListView correctly.", initListView, RecipeListView);
-//
-//    }
+    @Test
+    protected void ViewRecipesTest() {
+        ViewRecipes initializer = new ViewRecipes();
+
+        ListView VRListView = initializer.getListView();
+
+        assertEquals("Recipes were not loaded from the stub database to the ListView correctly.", VRListView, RecipeListView);
+
+    }
 
     @Test
     protected void RecipeTest() {
@@ -108,68 +114,84 @@ public class ROSEUnitTest extends ListActivity {
         assertEquals("Directions is not a valid ArrayList.", directions, temp_recipeDisplayList);
     }
 
-//    @Test
-//    protected void DetailsTest() {
-//        Details dets = new Details();
-//
-//        ListView detListView = dets.lv;
-//        int detRecipePos = dets.recipePosition;
-//
-//        int temp_Pos = 0;
-//
-//        assertEquals("Clicked Recipe Position is not a valid Recipe Position.", detRecipePos, temp_Pos);
-//        assertEquals("Recipe Details were not loaded from the Recipe to the ListView correctly.", detListView, DetailsListView);
-//
-//    }
-//
-//    @Test
-//    protected void EditTest() {
-//        Edit changer = new Edit();
-//
-//        int recPos = changer.recipePosition;
-//        int EType = changer.editType;
-//        int recID = changer.rID;
-//
-//        Recipe rec2Mod = changer.recipeToModify;
-//
-//        int changePos = changer.changePosition;
-//        int ingrSID = changer.ingredSID;
-//        int instSID = changer.instruSID;
-//
-//        int temp_int = 0;
-//
-//        assertEquals("Recipe Position is not a valid Recipe in the Database.", recPos, temp_int);
-//        assertEquals("Edit operation is not a valid operation.", EType, temp_int);
-//        assertEquals("Recipe ID is not a valid recipe ID.", recID, temp_int);
-//        assertEquals("Clicked Recipe is not a valid Recipe.", rec2Mod, temp_Recipe);
-//        assertEquals("Change Position is not a valid Position.", changePos, temp_int);
-//        assertEquals("Ingredient ID is not a valid ingredient ID.", ingrSID, temp_int);
-//        assertEquals("Instruction ID is not a valid instruction ID.", instSID, temp_int);
-//
-//    }
-//
-//    @Test
-//    protected void ShoppingListTest() {
-//
-//        // No Variables to test
-//
-//    }
-//
-//    @Test
-//    protected void SortRecipesTest() {
-//        SortRecipes sort = new SortRecipes();
-//
-//        int mealPos = sort.mealTypePos;
-//        int sortPos = sort.sortTypePos;
-//        int ingredPos = sort.mainIngredientPos;
-//
-//        int temp_int = 0;
-//
-//        assertEquals("Meal Type Position is not a valid Position.", mealPos, temp_int);
-//        assertEquals("Sort Type Position is not a valid Position.", sortPos, temp_int);
-//        assertEquals("Main Ingredient Position is not a valid Position.", ingredPos, temp_int);
-//
-//    }
+    @Test
+    protected void DetailsTest() {
+        Details dets = new Details();
+
+        ListView detListView = dets.getListView();
+        int detRecipePos = dets.recipePosition;
+
+        int temp_Pos = 0;
+
+        assertEquals("Clicked Recipe Position is not a valid Recipe Position.", detRecipePos, temp_Pos);
+        assertEquals("Recipe Details were not loaded from the Recipe to the ListView correctly.", detListView, DetailsListView);
+
+    }
+
+    @Test
+    protected void EditTest() {
+        Edit changer = new Edit();
+
+        int recPos = changer.recipePosition;
+        int EType = changer.editType;
+        int recID = changer.rID;
+
+        Recipe rec2Mod = changer.recipeToModify;
+
+        int changePos = changer.changePosition;
+        int ingrSID = changer.ingredSID;
+        int instSID = changer.instruSID;
+
+        int temp_int = 0;
+
+        assertEquals("Recipe Position is not a valid Recipe in the Database.", recPos, temp_int);
+        assertEquals("Edit operation is not a valid operation.", EType, temp_int);
+        assertEquals("Recipe ID is not a valid recipe ID.", recID, temp_int);
+        assertEquals("Clicked Recipe is not a valid Recipe.", rec2Mod, temp_Recipe);
+        assertEquals("Change Position is not a valid Position.", changePos, temp_int);
+        assertEquals("Ingredient ID is not a valid ingredient ID.", ingrSID, temp_int);
+        assertEquals("Instruction ID is not a valid instruction ID.", instSID, temp_int);
+
+    }
+
+    @Test
+    protected void SLDetailsTest() {
+
+        // No Variables to test
+
+    }
+
+    @Test
+    protected void MenuViewerTest() {
+        MenuViewer m_view = new MenuViewer();
+
+        ListView MVListView = m_view.getListView();
+        String item = m_view.items[0];
+
+        assertEquals("Menu Recipes were not loaded to the ListView Correctly.", MVListView, RecipeListView);
+        assertEquals("Not Valid Breakfast String.", item, meals[0]);
+        item = m_view.items[1];
+        assertEquals("Not Valid Lunch String.", item, meals[1]);
+        item = m_view.items[2];
+        assertEquals("Not Valid Supper String.", item, meals[2]);
+
+    }
+
+    @Test
+    protected void SortRecipesTest() {
+        SortRecipes sort = new SortRecipes();
+
+        int mealPos = sort.mealTypePos;
+        int sortPos = sort.sortTypePos;
+        int ingredPos = sort.mainIngredientPos;
+
+        int temp_int = 0;
+
+        assertEquals("Meal Type Position is not a valid Position.", mealPos, temp_int);
+        assertEquals("Sort Type Position is not a valid Position.", sortPos, temp_int);
+        assertEquals("Main Ingredient Position is not a valid Position.", ingredPos, temp_int);
+
+    }
 
     @AfterClass
     public static void tearDownClass() throws Exception {
